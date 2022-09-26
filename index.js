@@ -7,6 +7,8 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+const teamArr = [];
+
 function buildTeam() {
     inquirer
         .prompt([
@@ -37,21 +39,23 @@ function buildTeam() {
                 choices: ["Engineer", "Intern", "I don't want to add any more team members"]
             },
         ])
-        .then((results) => {
+        .then((userInputs) => {
             const managerObj = new Manager(
-                results.managerName,
-                results.managerId,
-                results.managerEmail,
-                results.managerOfficeNum,
+                userInputs.managerName,
+                userInputs.managerId,
+                userInputs.managerEmail,
+                userInputs.managerOfficeNum,
             );
-            console.log(managerObj);
-            switch(results.addTeamMem) {
+            teamArr.push(managerObj);
+            console.log(teamArr)
+            switch(userInputs.addTeamMem) {
                 case "Engineer":
                     console.log("run a function that runs engineer questions");
                     addEngineer();
                     break;
                 case "Intern":
                     console.log("run a function that runs intern questions");
+                    addIntern();
                     break;
                 case "I don't want to add any more team members":
                     console.log("generate HTML");
@@ -94,15 +98,81 @@ function addEngineer() {
                 choices: ["Engineer", "Intern", "I don't want to add any more team members"]
             },
         ])
-        .then((addTeamMem) => {
-            switch(addTeamMem.addTeamMem) {
+        .then((userInputs) => {
+            const engineerObj = new Engineer(
+                userInputs.engineerName,
+                userInputs.engineerId,
+                userInputs.engineerEmail,
+                userInputs.engineerGitHub,
+            );
+            teamArr.push(engineerObj);
+            console.log(teamArr)
+            switch(userInputs.addTeamMem) {
                 case "Engineer":
                     console.log("run a function that runs engineer questions");
                     addEngineer();
                     break;
                 case "Intern":
                     console.log("run a function that runs intern questions");
+                    addIntern();
                     break;
+                case "I don't want to add any more team members":
+                    console.log("generate HTML");
+
+                    break;
+                default:
+                    return;
+            }
+        });
+};
+
+function addIntern() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "internName",
+                message: "What is your intern's name?",
+            },
+            {
+                type: "input",
+                name: "internId",
+                message: "What is your intern's ID?",
+            },
+            {
+                type: "input",
+                name: "internEmail",
+                message: "What is your intern's email?",
+            },
+            {
+                type: "input",
+                name: "internSchool",
+                message: "What is your intern's school?",
+            },
+            {
+                type: "list",
+                name: "addTeamMem",
+                message: "Which type of team member would you like to add?",
+                choices: ["Engineer", "Intern", "I don't want to add any more team members"]
+            },
+        ])
+        .then((userInputs) => {
+            const internObj = new Intern(
+                userInputs.internName,
+                userInputs.internId,
+                userInputs.internEmail,
+                userInputs.internSchool,
+            );
+            teamArr.push(internObj);
+            console.log(teamArr)
+            switch(userInputs.addTeamMem) {
+                case "Engineer":
+                    console.log("run a function that runs engineer questions");
+                    addEngineer();
+                    break;
+                case "Intern":
+                    console.log("run a function that runs intern questions");
+                    addIntern();
                 case "I don't want to add any more team members":
                     console.log("generate HTML");
                     break;
