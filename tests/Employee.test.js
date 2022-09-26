@@ -6,9 +6,9 @@ test("Can instantiate Employee instance", () => {
 });
 
 test("Can set name via constructor arguments", () => {
-  const name = "Alice";
-  const e = new Employee(name);
-  expect(e.name).toBe(name);
+  const inputName = "Devan";
+  const e = new Employee(inputName);
+  expect(e.name).toBe(inputName);
 });
 
 test("Can set id via constructor argument", () => {
