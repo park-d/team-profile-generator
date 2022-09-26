@@ -49,7 +49,8 @@ const generateAllHtml = (teamHtml) => {
 </div>   
 <div class="container col-10">
     <div class="row d-flex justify-content-center">              
-    <!--rendered content will go here-->
+    <!--rendered content here-->
+    ${generateTeamHTML(teamHtml)}
     </div>
 </div>     
 </body>
