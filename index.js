@@ -1,7 +1,6 @@
 // importing dependencies
 const inquirer = require("inquirer");
 const fs = require("fs");
-const jest = require('jest');
 
 // importing constructor functions
 const Manager = require("./lib/Manager");
@@ -200,13 +199,18 @@ function addAnotherMember() {
                     addIntern();
                     break;
                 case "I don't want to add any more team members":
-                    //writeFile();
+                    writeFile();
                     break;
                 default:
                     return;
             }
         }
         );
+};
+
+//function that actually writes the html text to a new index.html file
+const writeFile = () => {
+    fs.writeFile("./dist/index.html", generateHTML.generateAllHtml(teamArr), (err) => {err ? console.error(err) : console.log("");});
 };
 
 //running the first function for the team builder
