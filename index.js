@@ -1,42 +1,62 @@
 // importing dependencies
 const inquirer = require("inquirer");
 const fs = require("fs");
+const jest = require('jest');
 
 // importing constructor functions
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+//importing function from other js files
+const generateHTML = require("./src/generateHtml");
+
+// array that will hold all of the data input from inquirer functions
 const teamArr = [];
 
+//function that starts the inquirer prompts, and after this gets filled out, the data is stored in a new Manager object and added to the teamArr, then the function that asks which other team members you want to add runs
 function buildTeam() {
+    console.log("\n\x1b[34m Welcome to the team generator!\n\n \x1b[34mPlease build your team:");
     inquirer
         .prompt([
             {
                 type: "input",
                 name: "managerName",
                 message: "What is the team manager's name?",
+                validate: (input) => input ? true : console.log("\x1b[33m Name is required.")
             },
             {
                 type: "input",
                 name: "managerId",
                 message: "What is the team manager's ID?",
+                validate: (input) => {
+                    if(!isNaN(input) && input) {
+                        input = input;
+                        return true;
+                    } else {
+                        console.log("\x1b[33m ID must be a number.");
+                        return false;
+                    }
+                }
             },
             {
                 type: "input",
                 name: "managerEmail",
                 message: "What is the team manager's email?",
+                validate: (input) => {
+                    if(input.includes(".", "@")) {
+                        return true;
+                    } else {
+                        console.log("\x1b[33m Must enter an email address.");
+                        return false;
+                    }
+                }
             },
             {
                 type: "input",
                 name: "managerOfficeNum",
                 message: "What is the team manager's office number?",
-            },
-            {
-                type: "list",
-                name: "addTeamMem",
-                message: "Which type of team member would you like to add?",
-                choices: ["Engineer", "Intern", "I don't want to add any more team members"]
+                validate: (input) => input ? true : console.log("\x1b[33m Office number is required.")
             },
         ])
         .then((userInputs) => {
@@ -44,30 +64,13 @@ function buildTeam() {
                 userInputs.managerName,
                 userInputs.managerId,
                 userInputs.managerEmail,
-                userInputs.managerOfficeNum,
-            );
+                userInputs.managerOfficeNum,);
             teamArr.push(managerObj);
-            console.log(teamArr)
-            switch(userInputs.addTeamMem) {
-                case "Engineer":
-                    console.log("run a function that runs engineer questions");
-                    addEngineer();
-                    break;
-                case "Intern":
-                    console.log("run a function that runs intern questions");
-                    addIntern();
-                    break;
-                case "I don't want to add any more team members":
-                    console.log("generate HTML");
-                    break;
-                default:
-                    return;
-            }
+            addAnotherMember();
         });
 };
 
-buildTeam();
-
+//function that starts the inquirer prompt for if they choose an engineer in the addAnotherMember function, and after this gets filled out, the data is stored in a new Engineer object and added to the teamArr, then the function that asks which other team members you want to add runs
 function addEngineer() {
     inquirer
         .prompt([
@@ -75,27 +78,40 @@ function addEngineer() {
                 type: "input",
                 name: "engineerName",
                 message: "What is your engineer's name?",
+                validate: (input) => input ? true : console.log("\x1b[33m Name is required.")
             },
             {
                 type: "input",
                 name: "engineerId",
                 message: "What is your engineer's ID?",
+                validate: (input) => {
+                    if(!isNaN(input) && input) {
+                        input = input;
+                        return true;
+                    } else {
+                        console.log("\x1b[33m ID must be a number.");
+                        return false;
+                    }
+                }
             },
             {
                 type: "input",
                 name: "engineerEmail",
                 message: "What is your engineer's email?",
+                validate: (input) => {
+                    if(input.includes(".", "@")) {
+                        return true;
+                    } else {
+                        console.log("\x1b[33m Must enter an email address.");
+                        return false;
+                    }
+                }
             },
             {
                 type: "input",
                 name: "engineerGitHub",
                 message: "What is your engineer's GitHub username?",
-            },
-            {
-                type: "list",
-                name: "addTeamMem",
-                message: "Which type of team member would you like to add?",
-                choices: ["Engineer", "Intern", "I don't want to add any more team members"]
+                validate: (input) => input ? true : console.log("\x1b[33m GitHub username is required.")
             },
         ])
         .then((userInputs) => {
@@ -103,29 +119,13 @@ function addEngineer() {
                 userInputs.engineerName,
                 userInputs.engineerId,
                 userInputs.engineerEmail,
-                userInputs.engineerGitHub,
-            );
+                userInputs.engineerGitHub,);
             teamArr.push(engineerObj);
-            console.log(teamArr)
-            switch(userInputs.addTeamMem) {
-                case "Engineer":
-                    console.log("run a function that runs engineer questions");
-                    addEngineer();
-                    break;
-                case "Intern":
-                    console.log("run a function that runs intern questions");
-                    addIntern();
-                    break;
-                case "I don't want to add any more team members":
-                    console.log("generate HTML");
-
-                    break;
-                default:
-                    return;
-            }
+            addAnotherMember();
         });
 };
 
+//function that starts the inquirer prompt for if they choose an intern in the addAnotherMember function, and after this gets filled out, the data is stored in a new Intern object and added to the teamArr, then the function that asks which other team members you want to add runs
 function addIntern() {
     inquirer
         .prompt([
@@ -133,27 +133,40 @@ function addIntern() {
                 type: "input",
                 name: "internName",
                 message: "What is your intern's name?",
+                validate: (input) => input ? true : console.log("\x1b[33m Name is required.")
             },
             {
                 type: "input",
                 name: "internId",
                 message: "What is your intern's ID?",
+                validate: (input) => {
+                    if(!isNaN(input) && input) {
+                        input = input;
+                        return true;
+                    } else {
+                        console.log("\x1b[33m ID must be a number.");
+                        return false;
+                    }
+                }
             },
             {
                 type: "input",
                 name: "internEmail",
                 message: "What is your intern's email?",
+                validate: (input) => {
+                    if(input.includes(".", "@")) {
+                        return true;
+                    } else {
+                        console.log("\x1b[33m Must enter an email address.");
+                        return false;
+                    }
+                }
             },
             {
                 type: "input",
                 name: "internSchool",
                 message: "What is your intern's school?",
-            },
-            {
-                type: "list",
-                name: "addTeamMem",
-                message: "Which type of team member would you like to add?",
-                choices: ["Engineer", "Intern", "I don't want to add any more team members"]
+                validate: (input) => input ? true : console.log("\x1b[33m School is required.")
             },
         ])
         .then((userInputs) => {
@@ -161,23 +174,40 @@ function addIntern() {
                 userInputs.internName,
                 userInputs.internId,
                 userInputs.internEmail,
-                userInputs.internSchool,
-            );
+                userInputs.internSchool,);
             teamArr.push(internObj);
-            console.log(teamArr)
+            addAnotherMember();
+        });
+};
+
+//function that starts an inquirer prompt that asks which type of team member to add, then based on which is chosen, runs different function
+function addAnotherMember() {
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                name: "addTeamMem",
+                message: "Which type of team member would you like to add?",
+                choices: ["Engineer", "Intern", "I don't want to add any more team members"],
+            }
+        ])
+        .then((userInputs) => {
             switch(userInputs.addTeamMem) {
                 case "Engineer":
-                    console.log("run a function that runs engineer questions");
                     addEngineer();
                     break;
                 case "Intern":
-                    console.log("run a function that runs intern questions");
                     addIntern();
+                    break;
                 case "I don't want to add any more team members":
-                    console.log("generate HTML");
+                    //writeFile();
                     break;
                 default:
                     return;
             }
-        });
+        }
+        );
 };
+
+//running the first function for the team builder
+buildTeam();
