@@ -1,3 +1,31 @@
+const generateTeamHTML = (employee) => {
+
+    teamArrHtml = [];
+
+    teamArrHtml.push(
+        employee
+            .filter((employee) => employee.getRole() === 'Manager')
+            .map((employee) => employee.renderHTML())
+            .join('')
+    );
+
+    teamArrHtml.push(
+        employee
+            .filter((employee) => employee.getRole() === 'Engineer')
+            .map((employee) => employee.renderHTML())
+            .join('')
+    );
+
+    teamArrHtml.push(
+        employee
+            .filter((employee) => employee.getRole() === 'Intern')
+            .map((employee) => employee.renderHTML())
+            .join('')
+    );
+
+    return teamArrHtml.join('');
+};
+
 const generateAllHtml = (teamHtml) => {
     return `
 <!DOCTYPE html>
