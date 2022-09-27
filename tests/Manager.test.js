@@ -1,3 +1,5 @@
+//tests provided to us by the teaching staff
+
 const Manager = require("../lib/Manager");
 const Employee = require("../lib/Employee");
 

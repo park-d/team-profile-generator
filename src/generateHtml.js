@@ -1,31 +1,31 @@
 const generateTeamHTML = (employee) => {
-
+// setting an empty array to hold the generated HTML from each employee added
     teamArrHtml = [];
 
+// each of the following are the same for each separate type of employee selected, filtering the array passed to the function, based on which role it is, then creating the HTML for that role, and pushing each of those to the array created above.
     teamArrHtml.push(
         employee
             .filter((employee) => employee.getRole() === 'Manager')
             .map((employee) => employee.renderHTML())
-            .join('')
     );
 
     teamArrHtml.push(
         employee
             .filter((employee) => employee.getRole() === 'Engineer')
             .map((employee) => employee.renderHTML())
-            .join('')
     );
 
     teamArrHtml.push(
         employee
             .filter((employee) => employee.getRole() === 'Intern')
             .map((employee) => employee.renderHTML())
-            .join('')
     );
 
+//joining each of the items in the array, and returning it as the output of the function to pass to the function below
     return teamArrHtml.join('');
 };
 
+//raw HTML structure with variable that holds the output of the above function, which is also HTML code but generated from each Class
 const generateAllHtml = (teamHtml) => {
     return `
 <!DOCTYPE html>

@@ -1,3 +1,5 @@
+//tests provided to us by the teaching staff
+
 const Employee = require("../lib/Employee");
 
 test("Can instantiate Employee instance", () => {

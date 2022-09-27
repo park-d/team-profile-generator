@@ -1,3 +1,5 @@
+//tests provided to us by the teaching staff
+
 const Engineer = require("../lib/Engineer");
 
 test("Can set GitHUb account via constructor", () => {
