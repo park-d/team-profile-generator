@@ -33,5 +33,7 @@ While working on this project, I worked alongside Jackson Myhre in the same boot
 - [node.js](https://nodejs.org/en/)
 - [npm inquirer](https://www.npmjs.com/package/inquirer/v/8.2.4)
 
+Tests were provided to us by our teaching staff.
+
 ## License
 Licensed by The Unlicense
