@@ -1,27 +1,30 @@
+const Manager = require("../lib/Manager");
+
 const generateTeamHTML = (employee) => {
-// setting an empty array to hold the generated HTML from each employee added
-    teamArrHtml = [];
+    // setting an empty array to hold the generated HTML from each employee added
 
-// each of the following are the same for each separate type of employee selected, filtering the array passed to the function, based on which role it is, then creating the HTML for that role, and pushing each of those to the array created above.
-    teamArrHtml.push(
-        employee
-            .filter((employee) => employee.getRole() === 'Manager')
-            .map((employee) => employee.renderHTML())
-    );
+    //creating variables to do custom sorting of employee roles, removing the first item (manager), so I can sort the others without ruining the order.
+    let newEmployees = employee;
+    let managerItem = newEmployees.shift();
 
-    teamArrHtml.push(
-        employee
-            .filter((employee) => employee.getRole() === 'Engineer')
-            .map((employee) => employee.renderHTML())
-    );
+    newEmployees.sort((a, b) => {
+        if(b.getRole() < a.getRole()) {return 1;}
+        if(b.getRole() > a.getRole()) {return -1;}
+        return 0;
+    });
+    // adding the manager item back to the first item in the arry
+    newEmployees.unshift(managerItem);
 
-    teamArrHtml.push(
-        employee
-            .filter((employee) => employee.getRole() === 'Intern')
-            .map((employee) => employee.renderHTML())
-    );
+    // empty arry to push the rendered HTML for each employee entered
+    let teamArrHtml = [];
 
-//joining each of the items in the array, and returning it as the output of the function to pass to the function below
+    for(obj of newEmployees) {
+        teamArrHtml.push(
+            obj.renderHTML()
+        );
+    }
+
+    //joining each of the items in the array, and returning it as the output of the function to pass to the function below
     return teamArrHtml.join('');
 };
 
