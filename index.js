@@ -11,7 +11,9 @@ const Intern = require("./lib/Intern");
 const generateHTML = require("./src/generateHtml");
 
 // array that will hold all of the data input from inquirer functions
-const teamArr = [];
+const managerArr = [];
+const engineerArr = [];
+const internArr = [];
 
 //function that starts the inquirer prompts, and after this gets filled out, the data is stored in a new Manager object and added to the teamArr, then the function that asks which other team members you want to add runs
 function buildTeam() {
@@ -64,7 +66,8 @@ function buildTeam() {
                 userInputs.managerId,
                 userInputs.managerEmail,
                 userInputs.managerOfficeNum,);
-            teamArr.push(managerObj);
+            managerArr.push(managerObj);
+            //managerArr
             addAnotherMember();
         });
 };
@@ -119,7 +122,8 @@ function addEngineer() {
                 userInputs.engineerId,
                 userInputs.engineerEmail,
                 userInputs.engineerGitHub,);
-            teamArr.push(engineerObj);
+            engineerArr.push(engineerObj);
+            //enginee arry
             addAnotherMember();
         });
 };
@@ -174,7 +178,7 @@ function addIntern() {
                 userInputs.internId,
                 userInputs.internEmail,
                 userInputs.internSchool,);
-            teamArr.push(internObj);
+            internArr.push(internObj);
             addAnotherMember();
         });
 };
@@ -210,6 +214,8 @@ function addAnotherMember() {
 
 //function that actually writes the html text to a new index.html file
 const writeFile = () => {
+    // combining all of the arrays holding the team members using spread operators
+    var teamArr = [...managerArr, ...engineerArr, ...internArr];
     fs.writeFile("./dist/index.html", generateHTML.generateAllHtml(teamArr), (err) => {err ? console.error(err) : console.log("");});
 };
 
