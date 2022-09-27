@@ -1,21 +1,19 @@
-const Manager = require("../lib/Manager");
-
 const generateTeamHTML = (employee) => {
     //creating variables to do custom sorting of employee roles, removing the first item (manager), so I can sort the others without ruining the order.
-    let newEmployees = employee;
-    let managerItem = newEmployees.shift();
-    newEmployees.sort((a, b) => {
+    let managerItem = employee.shift();
+
+    employee.sort((a, b) => {
         if(b.getRole() < a.getRole()) {return 1;}
         if(b.getRole() > a.getRole()) {return -1;}
         return 0;
     });
     // adding the manager item back to the first item in the arry
-    newEmployees.unshift(managerItem);
+    employee.unshift(managerItem);
 
     // empty arry to push the rendered HTML for each employee entered
     let teamArrHtml = [];
     //for each item in the arry, render the html and push it to the empty array
-    for(obj of newEmployees) {
+    for(obj of employee) {
         teamArrHtml.push(
             obj.renderHTML()
         );
